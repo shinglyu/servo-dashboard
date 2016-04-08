@@ -1,0 +1,22 @@
+body {
+  background-color:#EEE;
+}
+
+.repo-card > .mui-panel {
+  /*height: 18rem;*/
+  overflow: hidden;
+  cursor: pointer;
+}
+
+div.repo-card .pushed_time {
+  color: lightgrey;
+}
+
+div.repo-card .description {
+  height: 4rem;
+  overflow: hidden;
+}
+
+p.col-time {
+  text-align:right;
+}
