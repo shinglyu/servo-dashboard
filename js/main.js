@@ -9,8 +9,7 @@ var Issue =  React.createClass({
     /*
     if (info.owner.type == "Organization"){
       org = h('a', {href:info.owner.html_url}, info.owner.login)
-    }
-    */
+    } */
 
 
     var description = info.description;
@@ -56,7 +55,8 @@ var Dashboard =  React.createClass({
   getInitialState: function() {
     var placeholder = [{name:"Loading...", user:{}, body:''}];
     return {mentioned: placeholder,
-            reported: placeholder
+            reported: placeholder,
+            closed: placeholder
            }
   },
   componentDidMount: function() {
@@ -88,9 +88,9 @@ var Dashboard =  React.createClass({
           this.setState({reported: resultjson});
       }.bind(this))
 
-    cachedFetch('https://api.github.com/repos/servo/servo/issues?creator=' + username , expireTime)
+    cachedFetch('https://api.github.com/repos/servo/servo/issues?mentioned=' + username + "&state=closed" + sorting , expireTime)
       .then(function(resultjson){
-          this.setState({reported: resultjson});
+          this.setState({closed: resultjson});
       }.bind(this))
     /* Get org repos in which the user is*/
     /*
@@ -116,6 +116,10 @@ var Dashboard =  React.createClass({
         h('div', {className:"mui-row"}, 
           h('h3', {className:"mui-col-md-12"}, 'Reported'),
           h(IssueList, {issues:this.state.reported})
+         ),
+        h('div', {className:"mui-row"}, 
+          h('h3', {className:"mui-col-md-12"}, 'Recently Closed'),
+          h(IssueList, {issues:this.state.closed})
          )
        )
     )
