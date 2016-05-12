@@ -44,6 +44,7 @@ var Issue =  React.createClass({
     )
   }
 })
+
 var IssueList =  React.createClass({
   render: function(){
     var lis = this.props.issues.map(function(issueinfo, idx){
@@ -131,6 +132,12 @@ var Dashboard =  React.createClass({
       h('div', {className:"mui-row"}, 
         h('div', {className:"mui-row"}, 
           h('h1', {className:"mui-col-md-12"}, "My Servo Dashboard")
+         ),
+        h('div', {className:"mui-row"}, 
+          h('h3', {className:"mui-col-md-12"}, 'My Pull Requests'),
+          h(IssueList, {issues:this.state.reported.filter(function(i) {
+            return i.hasOwnProperty('pull_request')
+          })})
          ),
         h('div', {className:"mui-row"}, 
           h('h3', {className:"mui-col-md-12"}, 'Mentioned'),
