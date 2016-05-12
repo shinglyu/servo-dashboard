@@ -101,17 +101,20 @@ var Dashboard =  React.createClass({
     var repos = ['servo/servo', 'servo/saltfs']
 
     for (var idx in repos) {
-      cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + sorting, expireTime)
+      fetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + sorting)
+        .then(function(result){ return result.json(); })
         .then(function(resultjson){
             this.setState({mentioned: this.state.mentioned.concat(resultjson).sort(compareByUpdatedTimeDesc)});
         }.bind(this))
 
-      cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?creator=' + username + sorting, expireTime)
+      fetch('https://api.github.com/repos/' + repos[idx] + '/issues?creator=' + username + sorting)
+        .then(function(result){ return result.json(); })
         .then(function(resultjson){
             this.setState({reported: this.state.reported.concat(resultjson).sort(compareByUpdatedTimeDesc)});
         }.bind(this))
 
-      cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + "&state=closed" + sorting , expireTime)
+      fetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + "&state=closed" + sorting)
+        .then(function(result){ return result.json(); })
         .then(function(resultjson){
             this.setState({closed: this.state.closed.concat(resultjson).sort(compareByUpdatedTimeDesc)});
         }.bind(this))
