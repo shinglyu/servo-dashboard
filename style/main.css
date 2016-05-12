@@ -17,6 +17,24 @@ div.repo-card .description {
   overflow: hidden;
 }
 
-p.col-time {
+.col-time {
   text-align:right;
+}
+
+.title {
+  font-weight: bold;
+  color: black;
+}
+
+.repo, .number {
+  color: grey;
+}
+
+.is_pr {
+  font-family: monospace;
+}
+
+.mui-panel {
+  padding: 5px;
+  margin-bottom: 3px;
 }

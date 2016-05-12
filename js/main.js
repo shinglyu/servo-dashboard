@@ -18,9 +18,9 @@ var Issue =  React.createClass({
       description = description.slice(0, maxLength) + "......"
     }
 
-    var isPull = h('span', {className: "mui-col-md-1"}, "ISSUE")
+    var isPull = "Issue "
     if (info.hasOwnProperty('pull_request')) {
-      isPull = h('span', {className: "mui-col-md-1"}, "PR")
+      isPull = "PR "
     }
 
     return (
@@ -30,18 +30,15 @@ var Issue =  React.createClass({
             onClick:this.handleClick, 
             title: info.body
           }, 
-          isPull,
-          h('a', {href: info.html_url, className:"mui-col-md-5"}, 
-            h('p', null, info.title)
-          ),
-          h('a', {href: info.repository_url.replace('api.github.com/repos/', 'github.com/'), className:"mui-col-md-2"}, info.repository_url.replace('https://api.github.com/repos/', '')),
-          h('p', {className:"mui-col-md-1"}, 
-            h('a', {href:info.user.html_url}, info.user.login)
-          ),
+          h('a', {href: info.repository_url.replace('api.github.com/repos/', 'github.com/'), 
+                  className:"repo mui-col-md-1"
+                 }, 
+                 info.repository_url.replace('https://api.github.com/repos/', '')),
+          h('a', {href: info.html_url, className:"number mui-col-md-2"}, isPull + "#" + info.number),
+          h('a', {href: info.html_url, className:"title mui-col-md-5"}, info.title),
+          h('a', {href:info.user.html_url, className:"mui-col-md-1"}, info.user.login),
           //h('p', {className:"body"}, info.body),
-          h('p', {className:"mui-col-md-3 col-time"}, 
-            h('span', {className:"updated_time"}, new Date(info.updated_at).toLocaleString())
-          )
+          h('span', {className:"updated_time mui-col-md-3 col-time"}, new Date(info.updated_at).toLocaleString())
         )
       )
     )
