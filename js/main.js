@@ -31,9 +31,10 @@ var Issue =  React.createClass({
             title: info.body
           }, 
           isPull,
-          h('a', {href: info.html_url, className:"mui-col-md-7"}, 
+          h('a', {href: info.html_url, className:"mui-col-md-5"}, 
             h('p', null, info.title)
           ),
+          h('a', {href: info.repository_url.replace('api.github.com/repos/', 'github.com/'), className:"mui-col-md-2"}, info.repository_url.replace('https://api.github.com/repos/', '')),
           h('p', {className:"mui-col-md-1"}, 
             h('a', {href:info.user.html_url}, info.user.login)
           ),
@@ -60,7 +61,6 @@ var IssueList =  React.createClass({
 function compareByUpdatedTimeDesc(x, y){
   xd = Date.parse(x['updated_at'])
   yd = Date.parse(y['updated_at'])
-  console.log(xd)
   if (xd < yd) {
     return 1;
   }
