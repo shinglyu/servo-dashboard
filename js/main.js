@@ -57,9 +57,25 @@ var IssueList =  React.createClass({
   }
 })
 
+function compareByUpdatedTimeDesc(x, y){
+  xd = Date.parse(x['updated_at'])
+  yd = Date.parse(y['updated_at'])
+  console.log(xd)
+  if (xd < yd) {
+    return 1;
+  }
+  else if (xd > yd){
+    return -1;
+  }
+  else {
+    return 0;
+  }
+}
+
 var Dashboard =  React.createClass({
   getInitialState: function() {
-    var placeholder = [{name:"Loading...", user:{}, body:''}];
+    // var placeholder = [{name:"Loading...", user:{}, body:''}];
+    var placeholder = [];
     return {mentioned: placeholder,
             reported: placeholder,
             closed: placeholder
@@ -84,20 +100,24 @@ var Dashboard =  React.createClass({
 
     var sorting = "&sort=updated&direction=asec"
 
-    cachedFetch('https://api.github.com/repos/servo/servo/issues?mentioned=' + username + sorting, expireTime)
-      .then(function(resultjson){
-          this.setState({mentioned: resultjson});
-      }.bind(this))
+    var repos = ['servo/servo', 'servo/saltfs']
 
-    cachedFetch('https://api.github.com/repos/servo/servo/issues?creator=' + username + sorting, expireTime)
-      .then(function(resultjson){
-          this.setState({reported: resultjson});
-      }.bind(this))
+    for (var idx in repos) {
+      cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + sorting, expireTime)
+        .then(function(resultjson){
+            this.setState({mentioned: this.state.mentioned.concat(resultjson).sort(compareByUpdatedTimeDesc)});
+        }.bind(this))
 
-    cachedFetch('https://api.github.com/repos/servo/servo/issues?mentioned=' + username + "&state=closed" + sorting , expireTime)
-      .then(function(resultjson){
-          this.setState({closed: resultjson});
-      }.bind(this))
+      cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?creator=' + username + sorting, expireTime)
+        .then(function(resultjson){
+            this.setState({reported: this.state.reported.concat(resultjson).sort(compareByUpdatedTimeDesc)});
+        }.bind(this))
+
+      cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + "&state=closed" + sorting , expireTime)
+        .then(function(resultjson){
+            this.setState({closed: this.state.closed.concat(resultjson).sort(compareByUpdatedTimeDesc)});
+        }.bind(this))
+    }
     /* Get org repos in which the user is*/
     /*
     fetch('https://api.github.com/users/' + username + '/orgs')
