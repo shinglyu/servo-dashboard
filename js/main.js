@@ -18,6 +18,11 @@ var Issue =  React.createClass({
       description = description.slice(0, maxLength) + "......"
     }
 
+    var isPull = h('span', {className: "mui-col-md-1"}, "ISSUE")
+    if (info.hasOwnProperty('pull_request')) {
+      isPull = h('span', {className: "mui-col-md-1"}, "PR")
+    }
+
     return (
       h('div', {className:"mui-col-md-12 repo-card"}, 
         h('div', {
@@ -25,7 +30,8 @@ var Issue =  React.createClass({
             onClick:this.handleClick, 
             title: info.body
           }, 
-          h('a', {href: info.html_url, className:"mui-col-md-8"}, 
+          isPull,
+          h('a', {href: info.html_url, className:"mui-col-md-7"}, 
             h('p', null, info.title)
           ),
           h('p', {className:"mui-col-md-1"}, 
