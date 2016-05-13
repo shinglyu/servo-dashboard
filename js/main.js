@@ -94,27 +94,24 @@ var Dashboard =  React.createClass({
 
     //var repoParams = '?type=all&per_page=100&sort=pushed&direction=desc'
 
-    var expireTime = 12 * 60 * 60 * 1000; // 12 hour
+    var expireTime = 3 * 60 * 60 * 1000; // 3 hour
 
     var sorting = "&sort=updated&direction=asec"
 
     var repos = ['servo/servo', 'servo/saltfs']
 
     for (var idx in repos) {
-      fetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + sorting)
-        .then(function(result){ return result.json(); })
+      cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + sorting, expireTime)
         .then(function(resultjson){
             this.setState({mentioned: this.state.mentioned.concat(resultjson).sort(compareByUpdatedTimeDesc)});
         }.bind(this))
 
-      fetch('https://api.github.com/repos/' + repos[idx] + '/issues?creator=' + username + sorting)
-        .then(function(result){ return result.json(); })
+      cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?creator=' + username + sorting, expireTime)
         .then(function(resultjson){
             this.setState({reported: this.state.reported.concat(resultjson).sort(compareByUpdatedTimeDesc)});
         }.bind(this))
 
-      fetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + "&state=closed" + sorting)
-        .then(function(result){ return result.json(); })
+      cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + "&state=closed" + sorting , expireTime)
         .then(function(resultjson){
             this.setState({closed: this.state.closed.concat(resultjson).sort(compareByUpdatedTimeDesc)});
         }.bind(this))
