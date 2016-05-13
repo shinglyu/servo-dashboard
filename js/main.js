@@ -134,7 +134,17 @@ var Dashboard =  React.createClass({
       h('div', {className:"mui-row"}, 
         h('div', {className:"mui-col-md-12"}, 
           h('div', {className:"mui-row"}, 
-            h('h1', {className:"mui-col-md-12"}, "My Servo Dashboard")
+            h('h1', {className:"mui-col-md-6"}, "My Servo Dashboard"),
+            h('div', {className:"mui-col-md-6 toolbar"}, 
+              h('a', {href: "https://github.com/servo/servo/issues/new",
+                      className: "mui-btn mui-btn--primary"}, 
+                "New Issue"
+              ),
+              h('a', {href: "https://github.com/notifications/participating",
+                      className: "mui-btn mui-btn--primary"}, 
+                "Notifications"
+              )
+            )
           ),
           h('div', {className:"mui-row"}, 
             h('div', {className:"mui-col-md-12"}, 
@@ -171,6 +181,14 @@ var Dashboard =  React.createClass({
                 h('h3', {className:"mui-col-md-12"}, 'Recently Closed')
               ),
               h(IssueList, {issues:this.state.closed})
+            )
+          ),
+
+          h('div', {className:"mui-row footer"}, 
+            h('div', {className:"mui-col-md-12"}, 
+              h('hr', {}),
+              h('span', {}, "by Shing Lyu <shing.lyu@gmail.com> | "),
+              h('a', {href:"https://github.com/shinglyu/servo-dashboard"}, "Source Code")
             )
           )
         )

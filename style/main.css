@@ -38,3 +38,8 @@ div.repo-card .description {
   padding: 5px;
   margin-bottom: 3px;
 }
+
+.toolbar {
+  margin-top:15px;
+  text-align: right;
+}
