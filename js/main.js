@@ -24,22 +24,20 @@ var Issue =  React.createClass({
     }
 
     return (
-      h('div', {className:"mui-col-md-12 repo-card"}, 
-        h('div', {
-            className:"mui-panel mui-row", 
-            onClick:this.handleClick, 
-            title: info.body
-          }, 
-          h('a', {href: info.repository_url.replace('api.github.com/repos/', 'github.com/'), 
-                  className:"repo mui-col-md-1"
-                 }, 
-                 info.repository_url.replace('https://api.github.com/repos/', '')),
-          h('a', {href: info.html_url, className:"number mui-col-md-2"}, isPull + "#" + info.number),
-          h('a', {href: info.html_url, className:"title mui-col-md-5"}, info.title),
-          h('a', {href:info.user.html_url, className:"mui-col-md-1"}, info.user.login),
-          //h('p', {className:"body"}, info.body),
-          h('span', {className:"updated_time mui-col-md-3 col-time"}, new Date(info.updated_at).toLocaleString())
-        )
+      h('div', {
+          className:"mui-panel mui-row repo-card", 
+          onClick:this.handleClick, 
+          title: info.body
+        }, 
+        h('a', {href: info.repository_url.replace('api.github.com/repos/', 'github.com/'), 
+                className:"repo mui-col-md-1 mui-col-xs-6"
+               }, 
+               info.repository_url.replace('https://api.github.com/repos/', '')),
+        h('a', {href: info.html_url, className:"number mui-col-md-2 mui-col-xs-6"}, isPull + "#" + info.number),
+        h('a', {href: info.html_url, className:"title mui-col-md-5 mui-col-xs-12"}, info.title),
+        h('a', {href:info.user.html_url, className:"mui-col-md-1 mui-col-xs-4"}, info.user.login),
+        //h('p', {className:"body"}, info.body),
+        h('span', {className:"updated_time mui-col-md-3 mui-col-xs-8 col-time"}, new Date(info.updated_at).toLocaleString())
       )
     )
   }
@@ -51,7 +49,11 @@ var IssueList =  React.createClass({
       return h(Issue, { key:idx, issueinfo: issueinfo} )
     })
     return (
-      h('div', {className:"mui-row"}, lis)
+      h('div', {className:"mui-row"}, 
+        h('div', {className:"mui-col-md-12"}, 
+          lis
+        )
+      )
     )
   }
 })
@@ -130,28 +132,49 @@ var Dashboard =  React.createClass({
   render: function(){
     return (
       h('div', {className:"mui-row"}, 
-        h('div', {className:"mui-row"}, 
-          h('h1', {className:"mui-col-md-12"}, "My Servo Dashboard")
-         ),
-        h('div', {className:"mui-row"}, 
-          h('h3', {className:"mui-col-md-12"}, 'My Pull Requests'),
-          h(IssueList, {issues:this.state.reported.filter(function(i) {
-            return i.hasOwnProperty('pull_request')
-          })})
-         ),
-        h('div', {className:"mui-row"}, 
-          h('h3', {className:"mui-col-md-12"}, 'Mentioned'),
-          h(IssueList, {issues:this.state.mentioned})
-         ),
-        h('div', {className:"mui-row"}, 
-          h('h3', {className:"mui-col-md-12"}, 'Reported'),
-          h(IssueList, {issues:this.state.reported})
-         ),
-        h('div', {className:"mui-row"}, 
-          h('h3', {className:"mui-col-md-12"}, 'Recently Closed'),
-          h(IssueList, {issues:this.state.closed})
-         )
-       )
+        h('div', {className:"mui-col-md-12"}, 
+          h('div', {className:"mui-row"}, 
+            h('h1', {className:"mui-col-md-12"}, "My Servo Dashboard")
+          ),
+          h('div', {className:"mui-row"}, 
+            h('div', {className:"mui-col-md-12"}, 
+              h('div', {className:"mui-row"}, 
+                h('h3', {className:"mui-col-md-12"}, 'My Pull Requests')
+              ),
+              h(IssueList, {issues:this.state.reported.filter(function(i) {
+                return i.hasOwnProperty('pull_request')
+              })})
+            )
+          ),
+
+          h('div', {className:"mui-row"}, 
+            h('div', {className:"mui-col-md-12"}, 
+              h('div', {className:"mui-row"}, 
+                h('h3', {className:"mui-col-md-12"}, 'Mentioned')
+              ),
+              h(IssueList, {issues:this.state.mentioned})
+            )
+          ),
+
+          h('div', {className:"mui-row"}, 
+            h('div', {className:"mui-col-md-12"}, 
+              h('div', {className:"mui-row"}, 
+                h('h3', {className:"mui-col-md-12"}, 'Reported')
+              ),
+              h(IssueList, {issues:this.state.reported})
+            )
+          ),
+
+          h('div', {className:"mui-row"}, 
+            h('div', {className:"mui-col-md-12"}, 
+              h('div', {className:"mui-row"}, 
+                h('h3', {className:"mui-col-md-12"}, 'Recently Closed')
+              ),
+              h(IssueList, {issues:this.state.closed})
+            )
+          )
+        )
+      )
     )
   }
 })
