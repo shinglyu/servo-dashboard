@@ -31,16 +31,18 @@ var Issue =  React.createClass({
         }, 
         h('span', {className:"meta mui-col-md-3 mui-col-xs-12"}, 
             h('a', {href: info.repository_url.replace('api.github.com/repos/', 'github.com/'), 
-                    className:"repo mui-col-md-6 mui-col-xs-6"
+                    className:"repo mui-col-md-12 mui-col-xs-6"
                    }, 
                    info.repository_url.replace('https://api.github.com/repos/', '')),
-            h('a', {href: info.html_url, className:"number mui-col-md-6 mui-col-xs-6"}, isPull + "#" + info.number)
+            h('a', {href: info.html_url, className:"number mui-col-md-12 mui-col-xs-6"}, isPull + "#" + info.number)
         ),
         
         h('a', {href: info.html_url, className:"title mui-col-md-5 mui-col-xs-12"}, info.title),
-        h('a', {href:info.user.html_url, className:"mui-col-md-1 mui-col-xs-4"}, info.user.login),
-        //h('p', {className:"body"}, info.body),
-        h('span', {className:"updated_time mui-col-md-3 mui-col-xs-8 col-time"}, new Date(info.updated_at).toLocaleString())
+        h('span', {className:"meta mui-col-md-4 mui-col-xs-12"}, 
+          h('a', {href:info.user.html_url, className:"mui-col-md-12 mui-col-xs-4"}, info.user.login),
+          //h('p', {className:"body"}, info.body),
+          h('span', {className:"updated_time mui-col-md-12 mui-col-xs-8 col-time"}, new Date(info.updated_at).toLocaleString())
+        )
       )
     )
   }
@@ -164,29 +166,40 @@ var Dashboard =  React.createClass({
               )
             )
           ),
-          h(IssueListSection, {
-            title: 'Reviewing Pull Requests',
-            issues:this.state.mentioned.filter(function(i) {
-                return i.hasOwnProperty('pull_request')
+          h('div', {className:"mui-row"}, 
+            h('div', {className:"mui-col-md-6"}, 
+
+              h(IssueListSection, {
+                title: 'Reviewing Pull Requests',
+                issues:this.state.mentioned.filter(function(i) {
+                    return i.hasOwnProperty('pull_request')
+                  })
               })
-          }),
+            ),
 
-          h(IssueListSection, {
-            title: 'My Pull Requests',
-            issues:this.state.reported.filter(function(i) {
-                return i.hasOwnProperty('pull_request')
+            h('div', {className:"mui-col-md-6"}, 
+              h(IssueListSection, {
+                title: 'My Pull Requests',
+                issues:this.state.reported.filter(function(i) {
+                    return i.hasOwnProperty('pull_request')
+                  })
               })
-          }),
-
-          h(IssueListSection, {
-            title: 'Mentioned',
-            issues:this.state.mentioned
-          }),
-
-          h(IssueListSection, {
-            title: 'Reported',
-            issues:this.state.reported
-          }),
+            )
+          ),
+          h('div', {className:"mui-row"}, 
+            h('div', {className:"mui-col-md-6"}, 
+              h(IssueListSection, {
+                title: 'Mentioned',
+                issues:this.state.mentioned
+              })
+            ),
+            h('div', {className:"mui-col-md-6"}, 
+              h(IssueListSection, {
+                title: 'Reported',
+                issues:this.state.reported
+              })
+            )
+          ),
 
           h(IssueListSection, {
             title: 'Recently Closed',
