@@ -30,8 +30,12 @@ div.repo-card .description {
   color: grey;
 }
 
-.meta {
+.meta, .meta-footer{
   padding: 0px;
+}
+
+.meta-footer {
+  text-align: right;
 }
 
 .is_pr {

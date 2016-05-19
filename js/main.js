@@ -37,11 +37,15 @@ var Issue =  React.createClass({
             h('a', {href: info.html_url, className:"number mui-col-md-12 mui-col-xs-6"}, isPull + "#" + info.number)
         ),
         
-        h('a', {href: info.html_url, className:"title mui-col-md-5 mui-col-xs-12"}, info.title),
-        h('span', {className:"meta mui-col-md-4 mui-col-xs-12"}, 
+        h('a', {href: info.html_url, className:"title mui-col-md-6 mui-col-xs-12"}, info.title),
+        h('span', {className:"meta-footer mui-col-md-3 mui-col-xs-12"}, 
           h('a', {href:info.user.html_url, className:"mui-col-md-12 mui-col-xs-4"}, info.user.login),
           //h('p', {className:"body"}, info.body),
-          h('span', {className:"updated_time mui-col-md-12 mui-col-xs-8 col-time"}, new Date(info.updated_at).toLocaleString())
+          //h('span', {className:"updated_time mui-col-md-12 mui-col-xs-8 col-time"}, new Date(info.updated_at).toLocaleString())
+          h('span', {
+            className:"updated_time mui-col-md-12 mui-col-xs-8 col-time",
+            title: new Date(info.updated_at).toString()
+          }, moment(info.updated_at).fromNow())
         )
       )
     )
