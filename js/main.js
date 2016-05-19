@@ -58,6 +58,21 @@ var IssueList =  React.createClass({
   }
 })
 
+var IssueListSection =  React.createClass({
+  render: function(){
+    return (
+      h('div', {className:"mui-row"}, 
+        h('div', {className:"mui-col-md-12"}, 
+          h('div', {className:"mui-row"}, 
+            h('h3', {className:"mui-col-md-12"}, this.props.title)
+          ),
+          h(IssueList, {issues:this.props.issues})
+        )
+      )
+    )
+  }
+})
+
 function compareByUpdatedTimeDesc(x, y){
   xd = Date.parse(x['updated_at'])
   yd = Date.parse(y['updated_at'])
@@ -146,63 +161,34 @@ var Dashboard =  React.createClass({
               )
             )
           ),
-
-          h('div', {className:"mui-row"}, 
-            h('div', {className:"mui-col-md-12"}, 
-              h('div', {className:"mui-row"}, 
-                h('h3', {className:"mui-col-md-12"}, 'Reviewing Pull Requests')
-              ),
-              h(IssueList, {issues:this.state.mentioned.filter(function(i) {
+          h(IssueListSection, {
+            title: 'Reviewing Pull Requests',
+            issues:this.state.mentioned.filter(function(i) {
                 return i.hasOwnProperty('pull_request')
-              })})
-            )
-          ),
+              })
+          }),
 
-          h('div', {className:"mui-row"}, 
-            h('div', {className:"mui-col-md-12"}, 
-              h('div', {className:"mui-row"}, 
-                h('h3', {className:"mui-col-md-12"}, 'My Pull Requests')
-              ),
-              h(IssueList, {issues:this.state.reported.filter(function(i) {
+          h(IssueListSection, {
+            title: 'My Pull Requests',
+            issues:this.state.reported.filter(function(i) {
                 return i.hasOwnProperty('pull_request')
-              })})
-            )
-          ),
+              })
+          }),
 
-          h('div', {className:"mui-row"}, 
-            h('div', {className:"mui-col-md-12"}, 
-              h('div', {className:"mui-row"}, 
-                h('h3', {className:"mui-col-md-12"}, 'Mentioned')
-              ),
-              h(IssueList, {issues:this.state.mentioned})
-            )
-          ),
+          h(IssueListSection, {
+            title: 'Mentioned',
+            issues:this.state.mentioned
+          }),
 
-          h('div', {className:"mui-row"}, 
-            h('div', {className:"mui-col-md-12"}, 
-              h('div', {className:"mui-row"}, 
-                h('h3', {className:"mui-col-md-12"}, 'Reported')
-              ),
-              h(IssueList, {issues:this.state.reported})
-            )
-          ),
+          h(IssueListSection, {
+            title: 'Reported',
+            issues:this.state.reported
+          }),
 
-          h('div', {className:"mui-row"}, 
-            h('div', {className:"mui-col-md-12"}, 
-              h('div', {className:"mui-row"}, 
-                h('h3', {className:"mui-col-md-12"}, 'Recently Closed')
-              ),
-              h(IssueList, {issues:this.state.closed})
-            )
-          ),
-
-          h('div', {className:"mui-row footer"}, 
-            h('div', {className:"mui-col-md-12"}, 
-              h('hr', {}),
-              h('span', {}, "by Shing Lyu <shing.lyu@gmail.com> | "),
-              h('a', {href:"https://github.com/shinglyu/servo-dashboard"}, "Source Code")
-            )
-          )
+          h(IssueListSection, {
+            title: 'Recently Closed',
+            issues:this.state.closed
+          })
         )
       )
     )
