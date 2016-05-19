@@ -146,6 +146,18 @@ var Dashboard =  React.createClass({
               )
             )
           ),
+
+          h('div', {className:"mui-row"}, 
+            h('div', {className:"mui-col-md-12"}, 
+              h('div', {className:"mui-row"}, 
+                h('h3', {className:"mui-col-md-12"}, 'Reviewing Pull Requests')
+              ),
+              h(IssueList, {issues:this.state.mentioned.filter(function(i) {
+                return i.hasOwnProperty('pull_request')
+              })})
+            )
+          ),
+
           h('div', {className:"mui-row"}, 
             h('div', {className:"mui-col-md-12"}, 
               h('div', {className:"mui-row"}, 
