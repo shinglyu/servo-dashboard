@@ -30,6 +30,10 @@ div.repo-card .description {
   color: grey;
 }
 
+.meta {
+  padding: 0px;
+}
+
 .is_pr {
   font-family: monospace;
 }
@@ -43,3 +47,4 @@ div.repo-card .description {
   margin-top:15px;
   text-align: right;
 }
+

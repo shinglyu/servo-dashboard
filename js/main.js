@@ -29,11 +29,14 @@ var Issue =  React.createClass({
           onClick:this.handleClick, 
           title: info.body
         }, 
-        h('a', {href: info.repository_url.replace('api.github.com/repos/', 'github.com/'), 
-                className:"repo mui-col-md-2 mui-col-xs-6"
-               }, 
-               info.repository_url.replace('https://api.github.com/repos/', '')),
-        h('a', {href: info.html_url, className:"number mui-col-md-1 mui-col-xs-6"}, isPull + "#" + info.number),
+        h('span', {className:"meta mui-col-md-3 mui-col-xs-12"}, 
+            h('a', {href: info.repository_url.replace('api.github.com/repos/', 'github.com/'), 
+                    className:"repo mui-col-md-6 mui-col-xs-6"
+                   }, 
+                   info.repository_url.replace('https://api.github.com/repos/', '')),
+            h('a', {href: info.html_url, className:"number mui-col-md-6 mui-col-xs-6"}, isPull + "#" + info.number)
+        ),
+        
         h('a', {href: info.html_url, className:"title mui-col-md-5 mui-col-xs-12"}, info.title),
         h('a', {href:info.user.html_url, className:"mui-col-md-1 mui-col-xs-4"}, info.user.login),
         //h('p', {className:"body"}, info.body),
