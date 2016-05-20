@@ -34,6 +34,10 @@ div.repo-card .description {
   padding: 0px;
 }
 
+.meta a, .meta-footer a, .meta-footer span{
+  padding: 0px;
+}
+
 .meta-footer {
   text-align: right;
 }
