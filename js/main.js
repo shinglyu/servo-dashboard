@@ -1,7 +1,46 @@
 var h = React.createElement;
 var Issue =  React.createClass({
+  createFormat: function(title, content) {
+    var d1 = document.createElement('div');
+    var p1 = document.createElement('h3');
+    p1.textContent = title;
+    d1.appendChild(p1);
+    var c1 = document.createElement('input');
+    c1.type = "text";
+    c1.value = content;
+    c1.onfocus = function(){ 
+      this.select();
+      document.execCommand('copy');
+    };
+    d1.appendChild(c1);
+    return d1;
+  },
+
+  createFormatModal: function(){
+    var modal = document.createElement('div');
+    modal.className = 'modal';
+
+    modal.appendChild(this.createFormat("WikiText:", 
+                      "[" + this.props.issueinfo.html_url + 
+                      " #" + this.props.issueinfo.number + 
+                      "]: " + this.props.issueinfo.title));
+
+    modal.appendChild(this.createFormat("Markdown:",  
+                      "[#" + this.props.issueinfo.number + 
+                      "](" + this.props.issueinfo.html_url + 
+                      "): " + this.props.issueinfo.title));
+
+    var hr = document.createElement('hr')
+    var p = document.createElement('p');
+    p.textContent = "Click the input box to auto-copy the text to clipboard";
+    modal.appendChild(hr);
+    modal.appendChild(p);
+
+    return modal
+  },
   handleClick: function() {
-    window.location = this.props.issueinfo.html_url;
+    //window.location = this.props.issueinfo.html_url;
+    mui.overlay('on', this.createFormatModal());
   },
   render: function(){
     var info = this.props.issueinfo;
@@ -26,7 +65,7 @@ var Issue =  React.createClass({
     return (
       h('div', {
           className:"mui-panel mui-row repo-card", 
-          onClick:this.handleClick, 
+          //onClick:this.handleClick, 
           title: info.body
         }, 
         h('span', {className:"meta mui-col-md-3 mui-col-xs-12"}, 
@@ -34,7 +73,7 @@ var Issue =  React.createClass({
                     className:"repo mui-col-md-12 mui-col-xs-6"
                    }, 
                    info.repository_url.replace('https://api.github.com/repos/', '')),
-            h('a', {href: info.html_url, className:"number mui-col-md-12 mui-col-xs-6"}, isPull + "#" + info.number)
+            h('a', {href: "javascript:;", onClick: this.handleClick, className:"number mui-col-md-12 mui-col-xs-6"}, isPull + "#" + info.number)
         ),
         
         h('a', {href: info.html_url, className:"title mui-col-md-6 mui-col-xs-12"}, info.title),
