@@ -30,13 +30,13 @@ var Issue =  React.createClass({
                       "](" + this.props.issueinfo.html_url + 
                       "): " + this.props.issueinfo.title));
 
-    var hr = document.createElement('hr')
+    var hr = document.createElement('hr');
     var p = document.createElement('p');
     p.textContent = "Click the input box to auto-copy the text to clipboard";
     modal.appendChild(hr);
     modal.appendChild(p);
 
-    return modal
+    return modal;
   },
   handleClick: function() {
     //window.location = this.props.issueinfo.html_url;
@@ -44,7 +44,7 @@ var Issue =  React.createClass({
   },
   render: function(){
     var info = this.props.issueinfo;
-    var org = undefined;
+    var org;
     /*
     if (info.owner.type == "Organization"){
       org = h('a', {href:info.owner.html_url}, info.owner.login)
@@ -53,13 +53,13 @@ var Issue =  React.createClass({
 
     var description = info.description;
     var maxLength = 70;
-    if (description != null && description.length > maxLength) {
-      description = description.slice(0, maxLength) + "......"
+    if (description !== null && description.length > maxLength) {
+      description = description.slice(0, maxLength) + "......";
     }
 
-    var isPull = "Issue "
+    var isPull = "Issue ";
     if (info.hasOwnProperty('pull_request')) {
-      isPull = "PR "
+      isPull = "PR ";
     }
 
     return (
@@ -87,29 +87,29 @@ var Issue =  React.createClass({
           }, moment(info.updated_at).fromNow())
         )
       )
-    )
+    );
   }
-})
+});
 
 var IssueList =  React.createClass({
   render: function(){
     var lis = this.props.issues.map(function(issueinfo, idx){
-      return h(Issue, { key:idx, issueinfo: issueinfo} )
-    })
+      return h(Issue, { key:idx, issueinfo: issueinfo} );
+    });
     return (
-      h('div', {className:"mui-row"}, 
+      h('div', {className:"mui-row issue-list"},
         h('div', {className:"mui-col-md-12"}, 
           lis
         )
       )
-    )
+    );
   }
-})
+});
 
 var IssueListSection =  React.createClass({
   render: function(){
     return (
-      h('div', {className:"mui-row"}, 
+      h('div', {className:"mui-row issue-list-section"},
         h('div', {className:"mui-col-md-12"}, 
           h('div', {className:"mui-row"}, 
             h('h3', {className:"mui-col-md-12"}, this.props.title)
@@ -117,13 +117,13 @@ var IssueListSection =  React.createClass({
           h(IssueList, {issues:this.props.issues})
         )
       )
-    )
+    );
   }
-})
+});
 
 function compareByUpdatedTimeDesc(x, y){
-  xd = Date.parse(x['updated_at'])
-  yd = Date.parse(y['updated_at'])
+  xd = Date.parse(x.updated_at);
+  yd = Date.parse(y.updated_at);
   if (xd < yd) {
     return 1;
   }
@@ -142,7 +142,7 @@ var Dashboard =  React.createClass({
     return {mentioned: placeholder,
             reported: placeholder,
             closed: placeholder
-           }
+           };
   },
   componentDidMount: function() {
 
@@ -153,7 +153,7 @@ var Dashboard =  React.createClass({
       username = matches[1];
     }
     else {
-      username = prompt("What's your GitHub username?")
+      username = prompt("What's your GitHub username?");
       window.location += ("?user=" + username);
     }
 
@@ -161,25 +161,25 @@ var Dashboard =  React.createClass({
 
     var expireTime = 3 * 60 * 60 * 1000; // 3 hour
 
-    var sorting = "&sort=updated&direction=asec"
+    var sorting = "&sort=updated&direction=asec";
 
-    var repos = ['servo/servo', 'servo/saltfs', 'shinglyu/servo-perf']
+    var repos = ['servo/servo', 'servo/saltfs', 'shinglyu/servo-perf'];
 
     for (var idx in repos) {
       cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + sorting, expireTime)
         .then(function(resultjson){
             this.setState({mentioned: this.state.mentioned.concat(resultjson).sort(compareByUpdatedTimeDesc)});
-        }.bind(this))
+        }.bind(this));
 
       cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?creator=' + username + sorting, expireTime)
         .then(function(resultjson){
             this.setState({reported: this.state.reported.concat(resultjson).sort(compareByUpdatedTimeDesc)});
-        }.bind(this))
+        }.bind(this));
 
       cachedFetch('https://api.github.com/repos/' + repos[idx] + '/issues?mentioned=' + username + "&state=closed" + sorting , expireTime)
         .then(function(resultjson){
             this.setState({closed: this.state.closed.concat(resultjson).sort(compareByUpdatedTimeDesc)});
-        }.bind(this))
+        }.bind(this));
     }
     /* Get org repos in which the user is*/
     /*
@@ -215,7 +215,7 @@ var Dashboard =  React.createClass({
               h(IssueListSection, {
                 title: 'Reviewing Pull Requests',
                 issues:this.state.mentioned.filter(function(i) {
-                    return i.hasOwnProperty('pull_request')
+                    return i.hasOwnProperty('pull_request');
                   })
               })
             ),
@@ -224,7 +224,7 @@ var Dashboard =  React.createClass({
               h(IssueListSection, {
                 title: 'My Pull Requests',
                 issues:this.state.reported.filter(function(i) {
-                    return i.hasOwnProperty('pull_request')
+                    return i.hasOwnProperty('pull_request');
                   })
               })
             )
@@ -250,7 +250,7 @@ var Dashboard =  React.createClass({
           })
         )
       )
-    )
+    );
   }
-})
-ReactDOM.render(React.createElement(Dashboard), document.getElementById('content'))
+});
+ReactDOM.render(React.createElement(Dashboard), document.getElementById('content'));

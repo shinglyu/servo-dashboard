@@ -68,3 +68,8 @@ div.repo-card .description {
 .modal input {
   width: 100%;
 }
+
+.issue-list {
+  max-height: 60vh;
+  overflow: scroll;
+}
