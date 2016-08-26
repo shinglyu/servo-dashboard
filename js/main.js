@@ -53,7 +53,7 @@ var Issue =  React.createClass({
 
     var description = info.description;
     var maxLength = 70;
-    if (description !== null && description.length > maxLength) {
+    if (typeof(description) !== "undefined" && description.length > maxLength) {
       description = description.slice(0, maxLength) + "......";
     }
 
